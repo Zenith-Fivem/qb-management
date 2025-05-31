@@ -217,21 +217,22 @@ end)
 
 CreateThread(function()
     if Config.UseTarget then
-        for gang, zones in pairs(Config.GangMenus) do
-            for index, coords in ipairs(zones) do
-                local zoneName = gang .. '_gangmenu_' .. index
-                exports['qb-target']:AddCircleZone(zoneName, coords, 0.5, {
-                    name = zoneName,
+        for k, v in pairs(Config.GangMenus) do
+            for i = 1, #v do
+                exports['qb-target']:AddBoxZone("GangMenu_"..k..i, v[i], 2.0, 2.0, {
+                    name = "GangMenu_"..k..i,
+                    heading = 0.0,
                     debugPoly = false,
-                    useZ = true
+                    minZ = v[i].z - 1.0,
+                    maxZ = v[i].z + 1.0,
                 }, {
                     options = {
                         {
-                            type = 'client',
-                            event = 'qb-gangmenu:client:OpenMenu',
-                            icon = 'fas fa-sign-in-alt',
-                            label = Lang:t('targetgang.label'),
-                            canInteract = function() return gang == PlayerGang.name and PlayerGang.isboss end,
+                            type = "client",
+                            event = "qb-gangmenu:client:OpenMenu",
+                            icon = "fas fa-sign-in-alt",
+                            label = "Çete Menüsü",
+                            gang = k,
                         },
                     },
                     distance = 2.5
