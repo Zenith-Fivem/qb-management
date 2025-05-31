@@ -215,21 +215,22 @@ end)
 -- MAIN THREAD
 CreateThread(function()
     if Config.UseTarget then
-        for job, zones in pairs(Config.BossMenus) do
-            for index, coords in ipairs(zones) do
-                local zoneName = job .. '_bossmenu_' .. index
-                exports['qb-target']:AddCircleZone(zoneName, coords, 0.5, {
-                    name = zoneName,
+        for k, v in pairs(Config.BossMenus) do
+            for i = 1, #v do
+                exports['qb-target']:AddBoxZone("BossMenu_"..k..i, v[i], 2.0, 2.0, {
+                    name = "BossMenu_"..k..i,
+                    heading = 0.0,
                     debugPoly = false,
-                    useZ = true
+                    minZ = v[i].z - 1.0,
+                    maxZ = v[i].z + 1.0,
                 }, {
                     options = {
                         {
-                            type = 'client',
-                            event = 'qb-bossmenu:client:OpenMenu',
-                            icon = 'fas fa-sign-in-alt',
-                            label = Lang:t('target.label'),
-                            canInteract = function() return job == PlayerJob.name and PlayerJob.isboss end,
+                            type = "client",
+                            event = "qb-bossmenu:client:OpenMenu",
+                            icon = "fas fa-sign-in-alt",
+                            label = "Patron Menüsü",
+                            job = k,
                         },
                     },
                     distance = 2.5
